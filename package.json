@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/node": "^25.5.0",
     "vitepress": "^1.6.4"
   }
 }
