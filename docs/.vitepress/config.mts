@@ -34,6 +34,10 @@ export default defineConfig({
           level: [2, 6],
           label: '本页大纲'
         },
+        editLink: {
+          pattern: 'https://github.com/Michaelwucoc/awmc-wiki/edit/main/docs/:path', // 记得改成你自己的仓库地址！
+          text: '在 GitHub 上编辑此页'
+        },
         nav: [
           { text: '首页', link: '/' },
           { text: '帮助文档', link: '/guide/introduction' },
