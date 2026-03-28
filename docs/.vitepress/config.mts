@@ -7,6 +7,23 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
 
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }], // 这里引用 public 目录下的 favicon.ico
+    [
+      'script',
+      { 
+        async: '', 
+        defer: '', 
+        src: 'https://s.awmc.cc/script.js', 
+        'data-website-id': '0f856a4e-ed22-4f01-9071-74c373477974' 
+      }
+    ]
+  ],
+
+  sitemap: {
+    hostname: 'https://wiki.awmc.cc' // 开启 Sitemap 自动生成功能
+  },
+
   locales: {
     root: {
       label: '简体中文',
@@ -34,7 +51,9 @@ export default defineConfig({
             {
               text: '🤖 AWMC BOT',
               items: [
-                { text: 'AWMC BOT 基础教程', link: '/guide/bot/intro' }
+                { text: '基础教程', link: '/guide/bot/intro' },
+                { text: '指令调用', link: '/guide/bot/commands'},
+                { text: '授权获取', link: '/guide/bot/verify'}
               ]
             }
           ],
