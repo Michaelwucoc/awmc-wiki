@@ -1,6 +1,13 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 
+const props = defineProps({
+  baseUrl: {
+    type: String,
+    default: 'https://stat.awmc.cc'
+  }
+})
+
 const data = ref(null)
 const loading = ref(true)
 const error = ref(null)
@@ -26,7 +33,7 @@ const fetchData = async () => {
     const start = formatDate(now)
     const end = formatDate(tomorrow)
     
-    const url = `https://stat.awmc.cc/api/realtime?type=req&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`
+    const url = `${props.baseUrl}/api/realtime?type=req&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`
     const res = await fetch(url)
     if (!res.ok) throw new Error('Failed to fetch stats')
     data.value = await res.json()

@@ -1,11 +1,16 @@
+---
+apiBaseUrl: https://status.awmc.cc
+statBaseUrl: https://stat.awmc.cc
+---
+
 # 💻 开发者中心
 
 <br>
-<StatChart />
+<StatChart :baseUrl="$frontmatter.statBaseUrl" />
 
 欢迎来到 AWMC 开发者中心。我们为开发者提供了多种接口和工具，帮助你构建属于自己的舞萌应用或集成服务。
 
-## 📊 Status API
+## 📊 Status API (基准地址: `{{ $frontmatter.apiBaseUrl }}`)
 
 ::: info 💡 服务概述
 实时监控 AWMC 旗下所有舞萌服务的运行状态，数据源自 Uptime Kuma。
