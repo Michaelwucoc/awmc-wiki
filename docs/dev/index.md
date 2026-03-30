@@ -13,7 +13,7 @@ statBaseUrl: https://stat.awmc.cc
 ## 📊 Status API (基准地址: `{{ $frontmatter.apiBaseUrl }}`)
 
 ::: info 💡 服务概述
-实时监控 AWMC 旗下所有舞萌服务的运行状态，数据源自 Uptime Kuma。
+实时监控 AWMC 所提供的舞萌服务的运行状态。
 :::
 
 - **鉴权方式**：<Badge type="tip" text="无需鉴权" /> (对所有用户公开)
