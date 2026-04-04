@@ -49,7 +49,8 @@ export default defineConfig({
               text: '📖 基础指南',
               items: [
                 { text: 'AWMC 是什么?', link: '/guide/introduction' },
-                { text: '快速开始', link: '/guide/getting-started' }
+                { text: '快速开始', link: '/guide/getting-started' },
+                { text: '更新日志', link: '/guide/update' }
               ]
             },
             {
