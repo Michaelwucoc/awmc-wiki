@@ -72,7 +72,14 @@ export default defineConfig({
             {
               text: '📊 舞萌状态',
               items: [
-                {text: '舞萌状态API', link: '/dev/status-api'}
+                {text: '舞萌状态API', link: '/dev/status-api'},
+              ]
+            },
+            {
+              text: '🔧 AWMC API',
+              items: [
+                {text: 'AWMC 功能 API', link: '/dev/awmc-api'},
+                {text: 'Assets 静态资源 API', link: '/dev/assets-api'}
               ]
             }
           ]

@@ -21,6 +21,10 @@ const props = defineProps({
     type: Object,
     default: null
   },
+  isImage: {
+    type: Boolean,
+    default: false
+  },
   options: {
     type: Array,
     default: () => []
@@ -46,7 +50,8 @@ const currentApi = computed(() => {
     baseUrl: finalBaseUrl,
     description: props.description || base.description || '',
     params: props.params.length > 0 ? props.params : (base.params || []),
-    response: props.response || base.response || {}
+    response: props.response || base.response || {},
+    isImage: props.isImage || base.isImage || false
   }
 })
 
@@ -55,7 +60,16 @@ const paramValues = ref({})
 const isExpanded = ref(false)
 const copySuccess = ref(false)
 const isLoading = ref(false)
+const isImageLoading = ref(false)
 const executionResult = ref(null)
+const authToken = ref('')
+
+// 从 localStorage 加载令牌 (可选，提升用户体验)
+import { onMounted } from 'vue'
+onMounted(() => {
+  const savedToken = localStorage.getItem('awmc_auth_token')
+  if (savedToken) authToken.value = savedToken
+})
 
 // 初始化参数值
 import { watchEffect } from 'vue'
@@ -78,14 +92,15 @@ const getFullUrl = () => {
   let url = currentApi.value.baseUrl + currentApi.value.path
   const query = new URLSearchParams()
   
-  // 简单的路径参数替换 (例如 /api/:id)
-  Object.keys(paramValues.value).forEach(key => {
-    if (url.includes(`:${key}`)) {
-      url = url.replace(`:${key}`, paramValues.value[key])
-    } else {
-      query.append(key, paramValues.value[key])
-    }
-  })
+    // 简单的路径参数替换 (例如 /api/:id)
+    Object.keys(paramValues.value).forEach(key => {
+      // 匹配 :key
+      if (url.includes(`:${key}`)) {
+        url = url.replace(`:${key}`, paramValues.value[key])
+      } else {
+        query.append(key, paramValues.value[key])
+      }
+    })
 
   const queryString = query.toString()
   return queryString ? `${url}?${queryString}` : url
@@ -94,10 +109,32 @@ const getFullUrl = () => {
 const runRequest = async () => {
   isLoading.value = true
   executionResult.value = null
+  
+  if (currentApi.value.isImage) {
+    // 图片模式直接通过 <img> 标签加载，不需要 fetch
+    isImageLoading.value = true
+    setTimeout(() => {
+      isLoading.value = false
+      // 我们通过重置 executionResult 为一个空对象或特定标识来触发 <img> 重新渲染（如果需要）
+      // 或者干脆什么都不做，因为 :src 已经绑定了 getFullUrl()
+      executionResult.value = { isImage: true }
+    }, 300)
+    return
+  }
+
   try {
     const url = getFullUrl()
     const options = {
       method: currentApi.value.method,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    
+    // 如果填了 Auth Token，则携带 Bearer 头
+    if (authToken.value) {
+      options.headers['Authorization'] = `Bearer ${authToken.value}`
+      localStorage.setItem('awmc_auth_token', authToken.value)
     }
     
     const response = await fetch(url, options)
@@ -152,6 +189,20 @@ const formatMethod = (method) => {
           {{ currentApi.description }}
         </div>
 
+        <!-- 鉴权部分 (仅针对 awmc-api 场景) -->
+        <div v-if="currentApi.baseUrl.includes('api.awmc.cc')" class="auth-section">
+          <div class="section-title">鉴权设置 (Authorization)</div>
+          <div class="auth-box">
+            <span class="auth-prefix">Bearer</span>
+            <input 
+              v-model="authToken" 
+              class="auth-input"
+              placeholder="请输入您的 gw_ 令牌或 JWT"
+            />
+          </div>
+          <div class="auth-tips">填写的令牌将用于此后的所有请求。</div>
+        </div>
+
         <!-- 请求部分 -->
         <div class="section-title">请求地址</div>
         <div class="url-box">
@@ -197,12 +248,29 @@ const formatMethod = (method) => {
         </table>
 
         <!-- 响应预览 -->
-        <div class="section-title">响应示例 (JSON)</div>
+        <div class="section-title">
+          {{ currentApi.isImage ? '响应预览 (图片)' : '响应示例 (JSON)' }}
+        </div>
         <div v-if="executionResult" class="response-header">
           实际响应结果：
           <button class="clear-btn" @click="executionResult = null">清除</button>
         </div>
-        <div class="response-box" :class="{ 'execution-res': executionResult }">
+        
+        <!-- 图片预览模式 -->
+        <div v-if="currentApi.isImage" class="image-preview-box" :class="{ 'loading': isImageLoading }">
+          <div v-if="isImageLoading" class="image-loader">正在加载图片...</div>
+          <img 
+            :src="getFullUrl()" 
+            alt="Preview"
+            class="preview-img"
+            :style="{ opacity: isImageLoading ? 0.3 : 1 }"
+            @load="isImageLoading = false"
+            @error="isImageLoading = false; executionResult = { error: '图片加载失败，请检查 ID 是否正确' }"
+          />
+        </div>
+
+        <!-- JSON 预览模式 -->
+        <div v-else class="response-box" :class="{ 'execution-res': executionResult }">
           <pre><code>{{ JSON.stringify(executionResult || currentApi.response, null, 2) }}</code></pre>
         </div>
       </div>
@@ -402,6 +470,49 @@ const formatMethod = (method) => {
   outline: none;
 }
 
+.auth-section {
+  margin-bottom: 1.5rem;
+}
+
+.auth-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.auth-prefix {
+  padding: 4px 12px;
+  background-color: var(--vp-c-bg-alt);
+  color: var(--vp-c-text-2);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-right: 1px solid var(--vp-c-divider);
+}
+
+.auth-input {
+  flex: 1;
+  padding: 6px 12px;
+  border: none;
+  background-color: transparent;
+  color: var(--vp-c-text-1);
+  font-size: 0.85rem;
+  font-family: var(--vp-font-family-mono);
+}
+
+.auth-input:focus {
+  outline: none;
+}
+
+.auth-tips {
+  font-size: 0.75rem;
+  color: var(--vp-c-text-3);
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
 .response-header {
   display: flex;
   justify-content: space-between;
@@ -465,6 +576,35 @@ const formatMethod = (method) => {
   margin: 0;
   font-size: 0.85rem;
   color: #dcdcdc;
+}
+
+.image-preview-box {
+  margin-top: 8px;
+  background-color: var(--vp-c-bg-alt);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  border: 1px solid var(--vp-c-divider);
+  position: relative;
+}
+
+.image-loader {
+  position: absolute;
+  font-size: 0.85rem;
+  color: var(--vp-c-text-2);
+  z-index: 1;
+}
+
+.preview-img {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s;
 }
 
 /* 动画 */

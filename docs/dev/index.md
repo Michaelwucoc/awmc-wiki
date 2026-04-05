@@ -1,6 +1,7 @@
 ---
 apiBaseUrl: https://status.awmc.cc
 statBaseUrl: https://stat.awmc.cc
+awmcApiBaseUrl: https://api.awmc.cc
 ---
 
 # 💻 开发者中心
@@ -20,13 +21,24 @@ statBaseUrl: https://stat.awmc.cc
 - **访问限制**：`10 QPS` (每秒查询率)
 - **详细文档**：[点击查看 Status API 详情](/dev/status-api)
 
+<br>
 
+## 🔌 AWMC 公共 API (基准地址: `{{ $frontmatter.awmcApiBaseUrl }}`)
+
+::: info 💡 业务接口
+提供二维码解析、用户信息预览、成绩上传（水鱼/落雪）及功能票查询等业务接口。
+:::
+
+- **鉴权方式**：<Badge type="warning" text="Bearer 令牌" /> (需在 Authorization 中携带)
+- **消耗规则**：部分接口根据业务逻辑扣除 Token，详见计费说明。
+- **详细文档**：[点击查看 AWMC 公共 API 详情](/dev/awmc-api)
 
 ## 🚀 快速上手
 
 你可以通过以下链接快速访问不同模块的开发文档：
 
 - [**舞萌状态 API**](/dev/status-api) - 获取服务实时在线状态、心跳记录及公告。
+- [**AWMC 公共 API**](/dev/awmc-api) - 二维码识别、成绩上传及业务功能调用。
 - [**更多功能**] - 正在开发中，敬请期待...
 
 ::: tip 建议
