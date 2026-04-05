@@ -7,7 +7,7 @@ hero:
   text: "打造全能的舞萌平台"
   tagline: "官方文档、功能介绍及使用指南"
   image:
-    src: "/images/dlx.png"    
+    src: "/images/dlx_normal.png"    
     alt: AWMC Bot Logo
   actions:
     - theme: brand
