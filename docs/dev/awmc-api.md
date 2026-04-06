@@ -162,6 +162,26 @@ apiBaseUrl: https://api.awmc.cc
   ]"
 />
 
+### 3.4 功能票获取 (计费)
+
+获取功能票（倍数票）。该接口使用 **Query** 传参，业务成功时消耗 **10 Token**。
+
+<ApiDemo 
+  :options="[
+    {
+      title: '获取功能票（倍数票）',
+      method: 'POST',
+      path: '/v1/get_ticket',
+      description: '获取功能票（倍数票），Query：ticket_id、qr_text 等；业务成功时消耗 10 Token。',
+      params: [
+        { name: 'qr_text', type: 'string', required: '建议必填', desc: '二维码内容', value: '' },
+        { name: 'ticket_id', type: 'string', required: '可选', desc: '功能票 ID（如有）', value: '' }
+      ],
+      response: { TicketStatus: true, ticket: {} }
+    }
+  ]"
+/>
+
 
 ## 4. 公开 JSON 目录
 
