@@ -5,6 +5,12 @@ apiBaseUrl: https://api.awmc.cc
 
 面向**使用者**：如何调用开放接口，以及 **Token 何时会扣费**。本文不讨论内部实现。
 
+::: tip 平台地址
+平台地址：https://api.awmc.cc
+
+需要AWMC通行证登陆～
+:::
+
 ::: warning 🔐 鉴权
 业务请求须在请求头携带：
 
