@@ -17,6 +17,20 @@ export default defineConfig({
         src: 'https://s.awmc.cc/script.js', 
         'data-website-id': '0f856a4e-ed22-4f01-9071-74c373477974' 
       }
+    ],
+    // 51.LA 统计
+    [
+      'script',
+      {
+        charset: 'UTF-8',
+        id: 'LA_COLLECT',
+        src: 'https://sdk.51.la/js-sdk-pro.min.js'
+      }
+    ],
+    [
+      'script',
+      {},
+      'LA.init({id:"3PY9HZ7QuBatWvlO",ck:"3PY9HZ7QuBatWvlO",autoTrack:true,hashMode:true,screenRecord:true})'
     ]
   ],
 
