@@ -83,6 +83,7 @@ export default defineConfig({
             {
               text: '🤖 AWMC BOT',
               items: [
+                {text: '服务协议与隐私政策', link: '/guide/bot/terms'},
                 { text: '基础教程', link: '/guide/bot/intro' },
                 { text: '指令调用', link: '/guide/bot/commands'},
                 { text: '授权获取', link: '/guide/bot/verify'}
