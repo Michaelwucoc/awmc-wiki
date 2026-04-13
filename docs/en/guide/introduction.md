@@ -18,7 +18,7 @@ I'm a maimai DX newbie, hope the pros can carry me! Give me more advice if I mes
 
 ## about:BGcat
 
-Hiiiii BGcat there, the translator of these texts!
+Hiiiii BGca-there, the translator of these texts!
 
 This self-introduction is English version only xD(because im just a mascot of team lol)
 
