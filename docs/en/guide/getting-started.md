@@ -7,5 +7,5 @@ You can contact our team by email via the icon above.
 ## AWMC BOT
 
 To getting started on AWMC BOT, Please go to:
-[AWMC BOT](./bot/intro.md)
+[AWMC BOT](/guide/bot/intro)
 More info needed for translation...
