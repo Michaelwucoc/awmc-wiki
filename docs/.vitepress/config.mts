@@ -18,32 +18,13 @@ export default defineConfig({
         'data-website-id': '0f856a4e-ed22-4f01-9071-74c373477974' 
       }
     ],
-    // 51.LA 统计
     [
       'script',
       {
-        charset: 'UTF-8',
-        id: 'LA_COLLECT',
-        src: 'https://sdk.51.la/js-sdk-pro.min.js'
+        src: '//js.llk.hk',
+        'data-site-id': '4f76f700',
+        async: ''
       }
-    ],
-    [
-      'script',
-      {},
-      'LA.init({id:"3PY9HZ7QuBatWvlO",ck:"3PY9HZ7QuBatWvlO",autoTrack:true,hashMode:true,screenRecord:true})'
-    ],
-    // 51.LA 性能监控 (LingQue)
-    [
-      'script',
-      {
-        src: 'https://sdk.51.la/perf/js-sdk-perf.min.js',
-        crossorigin: 'anonymous'
-      }
-    ],
-    [
-      'script',
-      {},
-      'new LingQue.Monitor().init({id:"3PY9rkhX3BdbXUTQ",sendSpaPv:true});'
     ]
   ],
 
