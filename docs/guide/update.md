@@ -1,5 +1,7 @@
 # 更新日志
 
+后续更新日志在 [爱发电动态](https://afdian.com/a/AWMC_TEAM?tab=feed)。
+
 ## 2026 年 9 月
 
 ### 2026/09/08
